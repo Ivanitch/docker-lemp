@@ -16,6 +16,10 @@ services:
     depends_on:
       - php-fpm
       - mysqldb
+    networks:
+      default:
+        aliases:
+          - docker-lemp.loc
   php-fpm:
     build: "./docker/php"
     container_name: ${APP_NAME}_php-fpm
@@ -25,6 +29,8 @@ services:
       - "./app:/var/www/html"
     depends_on:
       - mysqldb
+    networks:
+      - default
   mysqldb:
     image: mariadb:${MARIADB_VERSION}
     container_name: ${APP_NAME}_${MARIADB_HOST}
@@ -40,6 +46,8 @@ services:
       - "./docker/mysql/data/db/mysql:/var/lib/mysql"
       - "./docker/mysql/conf.d/my.conf:/etc/mysql/conf.d/my.cnf"
       - "./app:/var/www/html"
+    networks:
+      - default
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:${PMA_VERSION}
     container_name: ${APP_NAME}_phpmyadmin
@@ -52,3 +60,6 @@ services:
     depends_on:
       - php-fpm
       - mysqldb
+networks:
+  default:
+    driver: bridge
