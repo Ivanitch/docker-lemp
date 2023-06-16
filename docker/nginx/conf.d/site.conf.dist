@@ -1,7 +1,7 @@
 server {
     charset UTF-8;
     listen 80;
-    server_name docker-lemp.loc;
+    server_name app.loc;
     index index.php;
     root /var/www/html/public;
 

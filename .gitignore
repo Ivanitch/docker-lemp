@@ -1,4 +1,5 @@
 .idea
 docker/log
 docker/mysql/data
+docker/nginx/conf.d/site.conf
 .env
