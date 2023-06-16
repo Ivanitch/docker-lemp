@@ -7,7 +7,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    restart: always
     volumes:
       - "./docker/nginx/conf.d/site.conf:/etc/nginx/conf.d/site.conf"
       - "./docker/nginx/ssl:/etc/nginx/ssl"
@@ -19,11 +18,10 @@ services:
     networks:
       default:
         aliases:
-          - docker-lemp.loc
+          - ${NGINX_HOST}
   php-fpm:
     build: "./docker/php"
     container_name: ${APP_NAME}_php-fpm
-    restart: always
     volumes:
       - "./docker/php/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini"
       - "./app:/var/www/html"
@@ -34,7 +32,6 @@ services:
   mysqldb:
     image: mariadb:${MARIADB_VERSION}
     container_name: ${APP_NAME}_${MARIADB_HOST}
-    restart: always
     environment:
       - MYSQL_DATABASE=${MARIADB_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
@@ -56,7 +53,6 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=${MARIADB_HOST}
-    restart: always
     depends_on:
       - php-fpm
       - mysqldb
