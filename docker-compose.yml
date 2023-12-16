@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3"
 
 services:
   web:
@@ -8,10 +8,10 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "./docker/nginx/conf.d/site.conf:/etc/nginx/conf.d/site.conf"
-      - "./docker/nginx/ssl:/etc/nginx/ssl"
-      - "./docker/log/nginx:/var/log/nginx"
-      - "./app:/var/www/html"
+      - ".docker/nginx/conf.d/site.conf:/etc/nginx/conf.d/site.conf"
+      - ".docker/nginx/ssl:/etc/nginx/ssl"
+      - ".docker/log/nginx:/var/log/nginx"
+      - ".:/var/www/html"
     depends_on:
       - php-fpm
       - mysqldb
@@ -20,11 +20,11 @@ services:
         aliases:
           - ${NGINX_HOST}
   php-fpm:
-    build: "./docker/php"
+    build: ".docker/php"
     container_name: ${APP_NAME}_php-fpm
     volumes:
-      - "./docker/php/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini"
-      - "./app:/var/www/html"
+      - ".docker/php/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini"
+      - ".:/var/www/html"
     depends_on:
       - mysqldb
     networks:
@@ -40,9 +40,9 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "./docker/mysql/data/db/mysql:/var/lib/mysql"
-      - "./docker/mysql/conf.d/my.conf:/etc/mysql/conf.d/my.cnf"
-      - "./app:/var/www/html"
+      - ".docker/mysql/data/db/mysql:/var/lib/mysql"
+      - ".docker/mysql/conf.d/my.conf:/etc/mysql/conf.d/my.cnf"
+      - ".:/var/www/html"
     networks:
       - default
   phpmyadmin:
