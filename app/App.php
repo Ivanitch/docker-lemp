@@ -9,6 +9,7 @@ class App
 {
     public function __construct()
     {
+        echo 'Hello, world!';
         dump($_SERVER);
     }
 }
