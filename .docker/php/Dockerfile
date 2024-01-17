@@ -11,13 +11,19 @@ RUN apt-get update && apt-get install -y \
 # @see https://github.com/mlocati/docker-php-extension-installer
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions zip xdebug imap exif intl pdo_mysql xsl yaml sysvmsg gmagick bcmath
+    install-php-extensions zip imap exif intl pdo_mysql xsl yaml sysvmsg gmagick bcmath
 
-# Add Composer
+# Install xdebug
+RUN pecl install xdebug \
+ && docker-php-ext-enable xdebug
+
+COPY conf.d/* ${PHP_INI_DIR}/conf.d/
+
+# Add Composer Alternative
 #RUN curl -sS https://getcomposer.org/installer | php -- \
 #    --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
 
-# Add Composer ALT
+# Add Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Add user

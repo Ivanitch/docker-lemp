@@ -22,8 +22,11 @@ services:
   php-fpm:
     build: ".docker/php"
     container_name: ${APP_NAME}_php-fpm
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      PHP_IDE_CONFIG: "serverName=docker-lemp.loc"
     volumes:
-      - ".docker/php/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini"
       - ".:/var/www/html"
     depends_on:
       - mysqldb

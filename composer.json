@@ -20,6 +20,7 @@
   "require-dev": {
     "jetbrains/phpstorm-attributes": "^1.0",
     "maglnet/composer-require-checker": "^4.8",
+    "phpunit/phpunit": "^10.5",
     "roave/security-advisories": "dev-master",
     "symfony/var-dumper": "^7.0"
   },
